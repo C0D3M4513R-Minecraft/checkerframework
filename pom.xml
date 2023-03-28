@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.c0d3m4513r.pom</groupId>
+    <artifactId>checkerframework</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <!-- todo: check if this notation is actually correct, since that is a monorepo -->
+        <url>https://github.com/Pixel-gaming/framework</url>
+    </scm>
+
+    <name>C0D3 M4513R's checkerframework parent project</name>
+    <description>This package is intended to be used as a parent of a project to configure the usage of Checkerframework without much configuration.</description>
+    <!-- todo: tweak that url to actually point to a website that represents what this project does in more detail -->
+    <url>https://github.com/Pixel-gaming/framework/tree/main/checkerframework</url>
+
+    <properties>
+        <checkerframeworkVersion>3.32.0</checkerframeworkVersion>
+        <configCheckerVersion>0.0.1</configCheckerVersion>
+        <project.encoding>UTF-8</project.encoding>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>c0d3m4513r</id>
+            <name>C0D3M4513R's nexus maven repo - Release and Snapshot</name>
+            <url>https://nexus.c0d3m4513r.com/repository/c0d3m4513r/</url>
+            <snapshots/>
+            <releases/>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>server-deploy</id>
+            <name>C0D3 M4513R's nexus maven repo</name>
+            <url>https://nexus.c0d3m4513r.com/repository/c0d3m4513r-Releases/</url>
+            <uniqueVersion>true</uniqueVersion>
+            <releases/>
+        </repository>
+        <snapshotRepository>
+            <id>server-deploy</id>
+            <name>C0D3 M4513R's nexus maven repo snapshots</name>
+            <url>https://nexus.c0d3m4513r.com/repository/c0d3m4513r-SNAPSHOT/</url>
+            <uniqueVersion>false</uniqueVersion>
+            <snapshots/>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker</artifactId>
+                <version>${checkerframeworkVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker-qual</artifactId>
+                <version>${checkerframeworkVersion}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok-maven-plugin</artifactId>
+                    <version>1.18.20.0</version>
+                    <executions>
+                        <execution>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>delombok</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>test-delombok</id>
+                            <phase>generate-test-sources</phase>
+                            <goals>
+                                <goal>testDelombok</goal>
+                            </goals>
+                            <configuration>
+                                <addOutputDirectory>true</addOutputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.4.1</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <artifactSet>
+                                    <excludes>
+                                        <exclude>com.google.errorprone:javac</exclude>
+                                        <exclude>org.checkerframework:jdk8</exclude>
+                                        <exclude>org.checkerframework:checker</exclude>
+                                    </excludes>
+                                </artifactSet>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                    <configuration>
+                        <generatedTestSourcesDirectory>target/generated-test-sources/delombok</generatedTestSourcesDirectory>
+                        <generatedSourcesDirectory>target/generated-sources/delombok</generatedSourcesDirectory>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>test-compile</id>
+                            <phase>test-compile</phase>
+                            <goals>
+                                <goal>testCompile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- makes the site goal function -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.10.0</version>
+                </plugin>
+                <!-- idk? -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.4.2</version>
+                </plugin>
+                <!-- tests -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <systemProperties>
+                            <property>
+                                <name>java.util.logging</name>
+                            </property>
+                        </systemProperties>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>checkerframework</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <configuration>
+                                <fork>true</fork> <!-- Must fork or else JVM arguments are ignored. -->
+                                <compilerArguments>
+                                    <Xmaxerrs>10000</Xmaxerrs>
+                                    <Xmaxwarns>10000</Xmaxwarns>
+                                    <Astubs>${project.basedir}/stubs</Astubs>
+                                    <AsuppressWarnings>type.anno.before.modifier</AsuppressWarnings>
+                                    <AcheckPurityAnnotations>true</AcheckPurityAnnotations>
+                                    <AsuggestPureMethods>true</AsuggestPureMethods>
+                                    <AresolveReflection>true</AresolveReflection>
+                                    <AshowPrefixInWarningMessages>true</AshowPrefixInWarningMessages>
+                                    <AwarnUnneededSuppressions>true</AwarnUnneededSuppressions>
+                                    <Awarns>true</Awarns>
+                                </compilerArguments>
+                                <annotationProcessorPaths>
+                                    <path>
+                                        <groupId>org.checkerframework</groupId>
+                                        <artifactId>checker</artifactId>
+                                        <version>${checkerframeworkVersion}</version>
+                                    </path>
+                                </annotationProcessorPaths>
+                                <annotationProcessors>
+                                    <!-- Add all the checkers you want to enable here -->
+                                    <annotationProcessor>org.checkerframework.checker.calledmethods.CalledMethodsChecker</annotationProcessor><!-- checks CalledMethods on an object. Can be used on Builders to prevent incomplete Instantiation. -->
+                                    <annotationProcessor>org.checkerframework.checker.formatter.FormatterChecker</annotationProcessor><!-- checks string format calls -->
+                                    <annotationProcessor>org.checkerframework.checker.index.inequality.LessThanChecker</annotationProcessor><!-- mostly prevents IndexOutOfBoundsException -->
+                                    <annotationProcessor>org.checkerframework.checker.index.lowerbound.LowerBoundChecker</annotationProcessor><!-- mostly prevents IndexOutOfBoundsException -->
+                                    <annotationProcessor>org.checkerframework.checker.index.samelen.SameLenChecker</annotationProcessor><!-- mostly prevents IndexOutOfBoundsException -->
+                                    <annotationProcessor>org.checkerframework.checker.index.searchindex.SearchIndexChecker</annotationProcessor><!-- mostly prevents IndexOutOfBoundsException -->
+                                    <annotationProcessor>org.checkerframework.checker.index.substringindex.SubstringIndexChecker</annotationProcessor><!-- mostly prevents IndexOutOfBoundsException -->
+                                    <!--                                <annotationProcessor>org.checkerframework.checker.index.upperbound.UpperBoundChecker</annotationProcessor>&lt;!&ndash; mostly prevents IndexOutOfBoundsException &ndash;&gt;-->
+                                    <annotationProcessor>org.checkerframework.checker.index.IndexChecker</annotationProcessor><!-- mostly prevents IndexOutOfBoundsException -->
+                                    <!--                                <annotationProcessor>org.checkerframework.checker.initialization.InitializationChecker</annotationProcessor>&lt;!&ndash; checks, that all @NonNull fields are actually initialized after the constructor call &ndash;&gt;-->
+                                    <!--<annotationProcessor>org.checkerframework.checker.interning.InterningChecker</annotationProcessor>--><!-- seems like a pain to implement -->
+                                    <!--<annotationProcessor>org.checkerframework.checker.lock.LockChecker</annotationProcessor>--><!-- we do not use/implement locks -->
+                                    <annotationProcessor>org.checkerframework.checker.mustcall.MustCallChecker</annotationProcessor><!-- checks consistency of MustCall annotations -->
+                                    <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor><!-- Prevents NullPointerExceptions -->
+                                    <annotationProcessor>org.checkerframework.checker.optional.OptionalChecker</annotationProcessor><!-- Prevents improper use of Optional -->
+                                    <annotationProcessor>org.checkerframework.checker.regex.RegexChecker</annotationProcessor><!-- checks regex for validity -->
+                                    <annotationProcessor>org.checkerframework.checker.resourceleak.ResourceLeakChecker</annotationProcessor><!-- checks MustCall methods are called -->
+                                    <annotationProcessor>org.checkerframework.checker.signature.SignatureChecker</annotationProcessor><!-- for java class/type names -->
+                                    <!--                                <annotationProcessor>org.checkerframework.checker.signedness.SignednessChecker</annotationProcessor>&lt;!&ndash; Prevents unnecessary methods on unsigned types &ndash;&gt;-->
+                                    <!--                                <annotationProcessor>org.checkerframework.checker.tainting.TaintingChecker</annotationProcessor>&lt;!&ndash; Marks user input as Tainted. Tainted stuff needs to be untainted before it can be safely used in the program (Think SQL-Injection). &ndash;&gt;-->
+                                </annotationProcessors>
+                                <compilerArgs>
+                                    <!-- <arg>-Awarns</arg> --> <!-- -Awarns turns type-checking errors into warnings. -->
+                                </compilerArgs>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-shade-plugin</artifactId>
+                            <configuration>
+                                <artifactSet>
+                                    <excludes>
+                                        <exclude>org.checkerframework:checker</exclude>
+                                    </excludes>
+                                </artifactSet>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+            <dependencies>
+                <dependency>
+                    <groupId>org.checkerframework</groupId>
+                    <artifactId>checker</artifactId>
+                    <version>${checkerframeworkVersion}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>checkerframework-jdk8</id>
+            <activation>
+                <jdk>1.8</jdk>
+            </activation>
+            <!-- using github.com/google/error-prone-javac is required when running on JDK 8 -->
+            <properties>
+                <errorProneJavac>9+181-r4173-1</errorProneJavac>
+                <javac.version>${errorProneJavac}</javac.version>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.google.errorprone</groupId>
+                    <artifactId>javac</artifactId>
+                    <version>${errorProneJavac}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.checkerframework</groupId>
+                    <artifactId>jdk8</artifactId>
+                    <version>3.3.0</version>
+                </dependency>
+            </dependencies>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <configuration>
+                                <fork>true</fork> <!-- Must fork or else JVM arguments are ignored. -->
+                                <source>1.8</source>
+                                <target>1.8</target>
+                                <compilerArgs combine.children="append">
+                                    <arg>-J-Xbootclasspath/p:${settings.localRepository}/com/google/errorprone/javac/${javac.version}/javac-${javac.version}.jar</arg>
+                                </compilerArgs>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-shade-plugin</artifactId>
+                            <configuration>
+                                <artifactSet>
+                                    <excludes>
+                                        <exclude>com.google.errorprone:javac</exclude>
+                                        <exclude>org.checkerframework:jdk8</exclude>
+                                    </excludes>
+                                </artifactSet>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+
+        <profile>
+            <id>checkerframework-jdk9orlater</id>
+            <activation>
+                <jdk>[9,)</jdk>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <configuration>
+                                <fork>true</fork>
+                                <release>11</release>
+                                <compilerArgs combine.children="append">
+                                    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+                                    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+                                    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+                                    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+                                    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+                                    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                                    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+                                    <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+                                    <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+                                </compilerArgs>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
+</project>
