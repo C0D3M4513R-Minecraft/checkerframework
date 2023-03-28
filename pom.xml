@@ -16,14 +16,14 @@
     </licenses>
 
     <scm>
-        <!-- todo: check if this notation is actually correct, since that is a monorepo -->
-        <url>https://github.com/Pixel-gaming/framework</url>
+        <url>https://github.com/Pixel-gaming/checkerframework</url>
+        <connection>scm:git</connection>
     </scm>
 
     <name>C0D3 M4513R's checkerframework parent project</name>
     <description>This package is intended to be used as a parent of a project to configure the usage of Checkerframework without much configuration.</description>
     <!-- todo: tweak that url to actually point to a website that represents what this project does in more detail -->
-    <url>https://github.com/Pixel-gaming/framework/tree/main/checkerframework</url>
+    <url>https://github.com/Pixel-gaming/checkerframework</url>
 
     <properties>
         <checkerframeworkVersion>3.32.0</checkerframeworkVersion>
