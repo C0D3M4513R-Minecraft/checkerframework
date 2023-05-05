@@ -3,9 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.c0d3m4513r.pom</groupId>
     <artifactId>checkerframework</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1${snapshot}</version>
     <packaging>pom</packaging>
 
     <licenses>
@@ -36,6 +37,7 @@
         <checkerframeworkVersion>3.32.0</checkerframeworkVersion>
         <configCheckerVersion>0.0.1</configCheckerVersion>
         <project.encoding>UTF-8</project.encoding>
+        <snapshot/>
     </properties>
 
     <repositories>
