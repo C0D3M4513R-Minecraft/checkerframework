@@ -13,7 +13,7 @@ def getSnapshot(){
     if (env.BRANCH_NAME == "main") {
         return ""
     }
-    return env.BRANCH_NAME.concat("-SNAPSHOT")
+    return "-".concat(env.BRANCH_NAME).concat("-SNAPSHOT")
 }
 
 void setBuildStatus(String message, String state) {
