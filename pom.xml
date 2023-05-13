@@ -21,7 +21,7 @@
         <connection>scm:git</connection>
     </scm>
 
-    <name>C0D3 M4513R's checkerframework parent project</name>
+    <name>checkerframework_parent_pom</name>
     <description>This package is intended to be used as a parent of a project to configure the usage of Checkerframework without much configuration.</description>
     <url>https://github.com/Pixel-gaming/checkerframework</url>
 
