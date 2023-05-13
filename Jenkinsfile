@@ -11,7 +11,11 @@ def getCommitSha() {
 }
 def getBranch(){
     sh "git branch --no-color --no-column --show-current > .git/branch"
-    return readFile(".git/branch").trim()
+    branch = readFile(".git/branch")
+    sh "echo raw branch is:".concat(branch);
+    branch = branch.trim()
+    sh "echo trimmed branch is:".concat(branch)
+    return branch
 }
 def getSnapshot(){
     branch = getBranch();
