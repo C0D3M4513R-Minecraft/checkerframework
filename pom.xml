@@ -56,14 +56,12 @@
             <name>C0D3 M4513R's nexus maven repo</name>
             <url>https://nexus.c0d3m4513r.com/repository/c0d3m4513r-Releases/</url>
             <uniqueVersion>true</uniqueVersion>
-            <releases/>
         </repository>
         <snapshotRepository>
             <id>server-deploy</id>
             <name>C0D3 M4513R's nexus maven repo snapshots</name>
             <url>https://nexus.c0d3m4513r.com/repository/c0d3m4513r-SNAPSHOT/</url>
             <uniqueVersion>false</uniqueVersion>
-            <snapshots/>
         </snapshotRepository>
     </distributionManagement>
 

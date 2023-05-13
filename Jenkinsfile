@@ -44,8 +44,9 @@ pipeline {
         }
         stage('Build') {
             steps {
+                sh "sed -i -e \"s/\\\${snapshot}/".concat(getSnapshot()).concat("/g\" pom.xml")
                 withCredentials([usernamePassword(credentialsId: 'c0d3m4513r-deployment', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                    sh 'mvn -B --settings settings.xml clean deploy -Dusername=$USERNAME -Dpassword=$PASSWORD -Dsnapshot='.concat(getSnapshot())
+                    sh 'mvn -B --settings settings.xml clean deploy -Dusername=$USERNAME -Dpassword=$PASSWORD'
                 }
             }
         }
