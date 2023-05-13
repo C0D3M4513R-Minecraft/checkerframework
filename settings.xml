@@ -6,7 +6,12 @@
     <pluginGroups/>
     <servers>
         <server>
-            <id>server-deploy</id>
+            <id>server-deploy-release</id>
+            <username>${username}</username>
+            <password>${password}</password>
+        </server>
+        <server>
+            <id>server-deploy-snapshot</id>
             <username>${username}</username>
             <password>${password}</password>
         </server>
