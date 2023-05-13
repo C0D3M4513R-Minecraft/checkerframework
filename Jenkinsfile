@@ -24,7 +24,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3-eclipse-temurin-8'
-            args '-v /root/.m2:/root/.m2'
+            args '-v /home/jenkins:/home/jenkins'
         }
     }
     stages {
