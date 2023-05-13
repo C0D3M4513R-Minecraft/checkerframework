@@ -43,8 +43,7 @@ pipeline {
         stage('Build') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'c0d3m4513r-deployment', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                    snapshot = getBranch() == "main" ? "" : "-SNAPSHOT"
-                    sh 'mvn -B --settings settings.xml clean deploy -Dusername=$USERNAME -Dpassword=$PASSWORD -Dsnapshot=${snapshot}'
+                    sh 'mvn -B --settings settings.xml clean deploy -Dusername=$USERNAME -Dpassword=$PASSWORD -Dsnapshot=${getBranch() == "main" ? "" : "-SNAPSHOT"}'
                 }
             }
         }
