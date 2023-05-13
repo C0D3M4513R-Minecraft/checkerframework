@@ -9,20 +9,11 @@ def getCommitSha() {
     sh "git rev-parse HEAD > .git/current-commit"
     return readFile(".git/current-commit").trim()
 }
-def getBranch(){
-    sh "git branch --no-color --no-column --show-current > .git/branch"
-    branch = readFile(".git/branch")
-    sh "echo raw branch is:".concat(branch);
-    branch = branch.trim()
-    sh "echo trimmed branch is:".concat(branch)
-    return branch
-}
 def getSnapshot(){
-    branch = getBranch();
-    if (branch == "main") {
+    if (env.BRANCH_NAME == "main") {
         return ""
     }
-    return "-SNAPSHOT-".concat(branch);
+    return "-SNAPSHOT-".concat(env.BRANCH_NAME);
 }
 
 void setBuildStatus(String message, String state) {
