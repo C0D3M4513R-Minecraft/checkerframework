@@ -6,7 +6,7 @@
 
     <groupId>com.c0d3m4513r.pom</groupId>
     <artifactId>checkerframework</artifactId>
-    <version>1.0.1${snapshot}</version>
+    <version>1.0.3${snapshot}</version>
     <packaging>pom</packaging>
 
     <licenses>
@@ -37,7 +37,7 @@
         <checkerframeworkVersion>3.32.0</checkerframeworkVersion>
         <configCheckerVersion>0.0.1</configCheckerVersion>
         <project.encoding>UTF-8</project.encoding>
-        <snapshot/>
+        <snapshot>-SNAPSHOT</snapshot>
     </properties>
 
     <repositories>
@@ -198,18 +198,18 @@
                             <artifactId>maven-compiler-plugin</artifactId>
                             <configuration>
                                 <fork>true</fork> <!-- Must fork or else JVM arguments are ignored. -->
-                                <compilerArguments>
+                                <compilerArgs>
                                     <Xmaxerrs>10000</Xmaxerrs>
                                     <Xmaxwarns>10000</Xmaxwarns>
                                     <Astubs>${project.basedir}/stubs</Astubs>
                                     <AsuppressWarnings>type.anno.before.modifier</AsuppressWarnings>
-                                    <AcheckPurityAnnotations>true</AcheckPurityAnnotations>
-                                    <AsuggestPureMethods>true</AsuggestPureMethods>
+                                    <AcheckPurityAnnotations>false</AcheckPurityAnnotations>
+                                    <AsuggestPureMethods>false</AsuggestPureMethods>
                                     <AresolveReflection>true</AresolveReflection>
-                                    <AshowPrefixInWarningMessages>true</AshowPrefixInWarningMessages>
+                                    <AshowPrefixInWarningMessages>false</AshowPrefixInWarningMessages>
                                     <AwarnUnneededSuppressions>true</AwarnUnneededSuppressions>
                                     <Awarns>true</Awarns>
-                                </compilerArguments>
+                                </compilerArgs>
                                 <annotationProcessorPaths>
                                     <path>
                                         <groupId>org.checkerframework</groupId>
@@ -336,8 +336,7 @@
                             <artifactId>maven-compiler-plugin</artifactId>
                             <configuration>
                                 <fork>true</fork>
-                                <release>11</release>
-                                <compilerArgs combine.children="append">
+                                 <compilerArgs combine.children="append">
                                     <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
                                     <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
                                     <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
